@@ -1,0 +1,95 @@
+{
+  "hotels": [
+    {
+      "id": "h001",
+      "name": "Hotel Luxor",
+      "stars": 5,
+      "totalPrice": 1500.0,
+      "dailyPrice": 300.0,
+      "tax": 150.0,
+      "thumb": "https://example.com/images/hotel_luxor_thumb.jpg",
+      "amenities": ["Wi-Fi", "Estacionamento", "Piscina", "Academia"],
+      "hasBreakFast": true,
+      "hasRefundableRoom": true,
+      "district": "Centro",
+      "placeId": "c001"
+    },
+    {
+      "id": "h002",
+      "name": "Pousada do Sol",
+      "stars": 3,
+      "totalPrice": 600.0,
+      "dailyPrice": 120.0,
+      "tax": 60.0,
+      "thumb": "https://example.com/images/pousada_sol_thumb.jpg",
+      "amenities": ["Wi-Fi", "Café da manhã", "Estacionamento"],
+      "hasBreakFast": true,
+      "hasRefundableRoom": false,
+      "district": "Bairro Alto",
+      "placeId": "c002"
+    },
+    {
+      "id": "h003",
+      "name": "Hotel Mar Azul",
+      "stars": 4,
+      "totalPrice": 1000.0,
+      "dailyPrice": 200.0,
+      "tax": 100.0,
+      "thumb": "https://example.com/images/hotel_mar_azul_thumb.jpg",
+      "amenities": ["Wi-Fi", "Piscina", "Bar"],
+      "hasBreakFast": false,
+      "hasRefundableRoom": true,
+      "district": "Praia",
+      "placeId": "c001"
+    }
+  ],
+  "hotels_details": [
+    {
+      "id": "h001",
+      "description": "Hotel Luxor oferece acomodações luxuosas no centro da cidade, com piscina, academia completa e serviço de quarto 24h.",
+      "fullAddress": "Av. Principal, 1000, Centro, Cidade Exemplo, EX",
+      "images": [
+        "https://example.com/images/hotel_luxor_1.jpg",
+        "https://example.com/images/hotel_luxor_2.jpg",
+        "https://example.com/images/hotel_luxor_3.jpg"
+      ]
+    },
+    {
+      "id": "h002",
+      "description": "Pousada do Sol, aconchegante e próxima das principais atrações do Bairro Alto, oferece café da manhã incluso e Wi-Fi gratuito.",
+      "fullAddress": "Rua das Flores, 250, Bairro Alto, Cidade Modelo, MD",
+      "images": [
+        "https://example.com/images/pousada_sol_1.jpg",
+        "https://example.com/images/pousada_sol_2.jpg"
+      ]
+    },
+    {
+      "id": "h003",
+      "description": "Hotel Mar Azul, localizado à beira-mar, perfeito para relaxar com piscina e bar exclusivo para hóspedes.",
+      "fullAddress": "Av. Beira-Mar, 500, Praia, Cidade Exemplo, EX",
+      "images": [
+        "https://example.com/images/hotel_mar_azul_1.jpg",
+        "https://example.com/images/hotel_mar_azul_2.jpg",
+        "https://example.com/images/hotel_mar_azul_3.jpg"
+      ]
+    }
+  ],
+  "cities": [
+    {
+      "name": "Cidade Exemplo",
+      "state": {
+        "name": "Estado Exemplar",
+        "sigla": "EX"
+      },
+      "placeId": "c001"
+    },
+    {
+      "name": "Cidade Modelo",
+      "state": {
+        "name": "Estado Modelo",
+        "sigla": "MD"
+      },
+      "placeId": "c002"
+    }
+  ]
+}

@@ -1,1 +1,44 @@
-// app global css in SCSS form
+@import '@fontsource/poppins/400.css';
+@import '@fontsource/poppins/600.css';
+@import '@fontsource/poppins/700.css';
+
+
+$primary-100: #009EFB;
+$primary-200: #007DC7;
+$success-100: #00835C;
+$info-100: #ADADB3;
+$info-200: #84858C;
+$info-300: #84858C;
+$info-400: #696A71;
+$info-500: #58585F;
+$info-600: #434347;
+
+$colors: (
+  "primary-100": $primary-100,
+  "primary-200": $primary-200,
+  "success-100": $success-100,
+  "info-100": $info-100,
+  "info-200": $info-200,
+  "info-300": $info-300,
+  "info-400": $info-400,
+  "info-500": $info-500,
+  "info-600": $info-600
+);
+
+@each $name, $color in $colors {
+  .bg-#{$name} {
+    background-color: $color !important;
+  }
+
+  .text-#{$name} {
+    color: $color !important;
+  }
+
+  .border-#{$name} {
+    border-color: $color !important;
+  }
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
