@@ -1,18 +1,23 @@
 import type { AxiosInstance } from "axios";
-import type { PaginationProtocol } from "src/protocols/pagination-protocol";
+import type {
+  PaginatedResponse,
+  PaginationProtocol,
+} from "src/protocols/pagination-protocol";
 import { UrlBuilder } from "./url-builder";
 import { hotelsEndpoint } from "./constants";
+import { api } from "src/boot/axios";
+import type {
+  FindByCityParams,
+  FindByNameParams,
+  HotelsServiceProtocol,
+} from "src/protocols/hotels-service-protocol";
+import type {
+  HotelDetailsProtocol,
+  HotelProtocol,
+} from "src/protocols/hotels-protocol";
 
-type FindByNameParams = {
-  name: string;
-};
-
-type FindByCityParams = PaginationProtocol & {
-  cityId: string;
-};
-
-export class HotelsApiService {
-  constructor(private readonly apiInstance: AxiosInstance) {}
+export class HotelsApiService implements HotelsServiceProtocol {
+  private readonly apiInstance: AxiosInstance = api;
 
   async getHotels({ page, itemsPerPage, orderBy }: PaginationProtocol) {
     const url = new UrlBuilder(hotelsEndpoint)
@@ -20,15 +25,19 @@ export class HotelsApiService {
       .withSorting({ orderBy })
       .getUrl();
 
-    const hotels = await this.apiInstance(url);
+    const { data } = await this.apiInstance<PaginatedResponse<HotelProtocol[]>>(
+      url
+    );
 
-    return { hotels };
+    return data;
   }
 
   async getById(id: string) {
-    const hotel = await this.apiInstance(`${hotelsEndpoint}/${id}`);
+    const { data } = await this.apiInstance<HotelDetailsProtocol>(
+      `${hotelsEndpoint}/${id}`
+    );
 
-    return { hotel };
+    return { hotel: data };
   }
 
   async findByName({ name }: FindByNameParams) {
@@ -39,9 +48,9 @@ export class HotelsApiService {
       })
       .getUrl();
 
-    const hotel = await this.apiInstance(url);
+    const { data } = await this.apiInstance<HotelDetailsProtocol>(url);
 
-    return { hotel };
+    return { hotel: data };
   }
 
   async findByCity({ cityId, itemsPerPage, orderBy, page }: FindByCityParams) {
@@ -54,8 +63,10 @@ export class HotelsApiService {
       })
       .getUrl();
 
-    const hotels = await this.apiInstance(url);
+    const { data } = await this.apiInstance<PaginatedResponse<HotelProtocol[]>>(
+      url
+    );
 
-    return { hotels };
+    return data;
   }
 }

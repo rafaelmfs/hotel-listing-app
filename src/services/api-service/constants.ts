@@ -1,4 +1,9 @@
-const baseURL = process.env.VITE_BASE_URL;
+const baseURL = import.meta.env.VITE_BASE_URL;
+
+console.log({
+  meta: import.meta.env,
+  process: process.env,
+});
 
 export const hotelDetailsEndpoint = `${baseURL}/hotels_details`;
 export const hotelsEndpoint = `${baseURL}/hotels`;

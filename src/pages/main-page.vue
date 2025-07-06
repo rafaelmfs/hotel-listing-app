@@ -1,20 +1,20 @@
+<script lang="ts" setup>
+  import mainPageHeader from '../components/main-page/main-page-header.vue';
+</script>
+
 <template>
-  <!-- <q-layout>
-    <q-page-container>
-
-    </q-page-container>
-  </q-layout> -->
-
-  <div class="page">
-
+  <div class="main-page">
+    <main-page-header></main-page-header>
   </div>
 </template>
 
-<style>
-  .page{
-    width: 50%;
-    height: 50%;
+<style lang="scss">
+  .main-page{
+    width: 100%;
+    max-width: 1200px;
 
-    background-color: blue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 </style>

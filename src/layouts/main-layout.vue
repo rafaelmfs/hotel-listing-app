@@ -1,17 +1,18 @@
 <template>
-  <div class="page-layout">
+  <div class="page-layout" >
     <router-view />
   </div>
 </template>
 
-<style>
+<style lang="scss">
   .page-layout{
     display: flex;
-    align-items: center;
     justify-content: center;
     width: 100%;
     height: 100vh;
 
-    background-color: red;
+    padding: 2rem;
+
+    background-color: $primary-100;
   }
 </style>
