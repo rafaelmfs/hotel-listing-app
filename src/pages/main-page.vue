@@ -5,11 +5,17 @@ import MainPageSortSelection from '../components/main-page/main-page-sort-sectio
 </script>
 
 <template>
-  <div class="main-page">
+  <div class="main-page column items-center gap-6">
     <main-page-header></main-page-header>
     <main-page-sort-selection></main-page-sort-selection>
 
     <ul class="hotels-list">
+      <li>
+        <hotel-card></hotel-card>
+      </li>
+      <li>
+        <hotel-card></hotel-card>
+      </li>
       <li>
         <hotel-card></hotel-card>
       </li>
@@ -22,22 +28,16 @@ import MainPageSortSelection from '../components/main-page/main-page-sort-sectio
     width: 100%;
     max-width: 1200px;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    gap: 1.5rem;
   }
 
   .hotels-list{
     width: 100%;
-    height: 100vh;
     background-color: #FFF;
 
     border-top-left-radius: 80px;
     border-top-right-radius: 80px;
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
 
     padding: 3rem;
     margin-top: -3rem;
@@ -45,6 +45,12 @@ import MainPageSortSelection from '../components/main-page/main-page-sort-sectio
 
     li{
       width: 100%;
+    }
+
+    li + li{
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba($info-100, 0.6);
     }
   }
 </style>

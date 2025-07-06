@@ -38,9 +38,26 @@ $u-text-sizes: (
   xxxl: 2.5rem     // 40px
 );
 
+$gap-sizes: (
+  1: 0.25rem,   // 4
+  2: 0.5rem,    // 8
+  3: 0.75,      // 12
+  4: 1rem,      // 16px
+  5: 1.25rem,   // 20px
+  6: 1.5rem,    // 24px
+  8: 2rem,      // 32px
+  10: 2.5rem    // 40px
+);
+
 @each $token, $rem in $u-text-sizes {
   .app-text-#{$token} {
     font-size: $rem;
+  }
+}
+
+@each $token, $rem in $gap-sizes {
+  .gap-#{$token} {
+    gap: $rem;
   }
 }
 

@@ -5,17 +5,13 @@
 </script>
 
 <template>
-  <button :class="{'app-button': true, 'app-button--rounded': props.rounded}">
+  <button class="app-button row items-center justify-center gap-4" :class="{'app-button--rounded': props.rounded}">
     <slot />
   </button>
 </template>
 
 <style lang="scss">
   .app-button{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.8rem;
     background-color: $primary-100;
     color: #FFF;
     border-radius: 8px;

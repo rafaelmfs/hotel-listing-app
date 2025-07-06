@@ -10,7 +10,7 @@ import SearchInput from '../form/search-input.vue';
 </script>
 
 <template>
-    <div class="sort-section">
+    <div class="sort-section row items-center justify-center gap-3">
       <sort-select :v-model="selectionModel"></sort-select>
       <div class="sort-section__search-input">
         <search-input placeholder="nome do hotel" v-model="search"></search-input>
@@ -21,11 +21,6 @@ import SearchInput from '../form/search-input.vue';
 <style lang="scss">
  .sort-section{
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-
     .q-field--borderless.q-field--dense .q-field__control{
       padding: 0.25rem 1rem;
     }

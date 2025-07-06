@@ -11,10 +11,10 @@
     align="left"
     no-caps
   >
-    <q-tab content-class="main-page__header__tabs__content" icon="flight_takeoff" :disable="true" :ripple="false" name="mails" label="Aéreo" />
-    <q-tab content-class="main-page__header__tabs__content" icon="hotel"  :ripple="false" name="hotel" label="Hotel" />
-    <q-tab content-class="main-page__header__tabs__content" icon="directions_car" :disable="true" :ripple="false" name="movies" label="Carro" />
-    <q-tab content-class="main-page__header__tabs__content" icon="directions_bus" :disable="true" :ripple="false" name="movies" label="Ônibus" />
+    <q-tab content-class="main-page__header__tabs__content row gap-3" icon="flight_takeoff" :disable="true" :ripple="false" name="mails" label="Aéreo" />
+    <q-tab content-class="main-page__header__tabs__content row gap-3" icon="hotel"  :ripple="false" name="hotel" label="Hotel" />
+    <q-tab content-class="main-page__header__tabs__content row gap-3" icon="directions_car" :disable="true" :ripple="false" name="movies" label="Carro" />
+    <q-tab content-class="main-page__header__tabs__content row gap-3" icon="directions_bus" :disable="true" :ripple="false" name="movies" label="Ônibus" />
   </q-tabs>
 </template>
 
@@ -24,12 +24,6 @@
 
     &:disabled{
       color: $info-300;
-    }
-
-    &__content{
-      display: flex;
-      flex-direction: row;
-      gap: 0.75rem;
     }
 
      .q-tab{
