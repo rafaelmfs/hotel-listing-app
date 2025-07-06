@@ -1,9 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import highlightInfo from '../highlight-info.vue';
 import appButton from '../app-button.vue';
+import type { HotelProtocol } from 'src/protocols/hotels-protocol';
+import { AmenitiesTypes } from 'src/constants/amenitites-types';
+import { computed } from 'vue';
+import { formatCurrencyNumber } from 'src/utils/format-currency-number';
 
-  const ratingModel = ref(3)
+  const props = defineProps<{
+    hotel: HotelProtocol
+  }>()
+
+  const { hotel } = props
+
+  const hotelAmenities = computed(() => hotel.amenities.map((item) => ({
+    iconName: AmenitiesTypes?.[item as keyof typeof AmenitiesTypes],
+    title: item
+  })))
+
+  const currencyProperties = ['tax', 'dailyPrice', 'totalPrice'] as const
+  const [tax, dailyPrice, totalPrice] = currencyProperties.map((value) => formatCurrencyNumber(hotel[value]))
 
 </script>
 
@@ -11,13 +26,13 @@ import appButton from '../app-button.vue';
   <div class="hotel-card__container">
     <div class="hotel-card__tumb">
       <q-img
-        src="https://s3.amazonaws.com/e-htl/uploads/hotels/10415/10415_10.JPG"
+        :src="hotel.thumb"
         spinner-color="white"
         height="inherit"
       />
       <div class="hotel-card__ratings">
         <q-rating
-          v-model="ratingModel"
+          v-model="hotel.stars"
           size="1.2em"
           color="info-500"
           color-selected="primary-200"
@@ -27,22 +42,21 @@ import appButton from '../app-button.vue';
     </div>
     <div class="hotel-card__content">
       <div class="hotel-card__details column justify-between">
-        <highlight-info title="Nacional Inn Belo Horizonte" subtitle="Coração De Jesus"></highlight-info>
+        <highlight-info :title="hotel.name" :subtitle="hotel.district"></highlight-info>
 
         <div class="hotel-card__details__info column gap-2">
           <div class="hotel-card__amenities row gap-2">
-            <span class="hotel-card__amenities__icon row items-center justify-center" title="search">
+            <span v-for="amenities in hotelAmenities" :title="amenities.title" :key="amenities.title" class="hotel-card__amenities__icon row items-center justify-center">
               <q-icon
-                name="search"
-                title="search"
+                :name="amenities.iconName"
               />
             </span>
           </div>
-          <span class="hotel-card__details__additionals row items-center  gap-2 text-success-100">
+          <span v-if="hotel.hasRefundableRoom" class="hotel-card__details__additionals row items-center  gap-2 text-success-100">
             <q-icon name="attach_money" />
             Reembolsável
           </span>
-          <span class="hotel-card__details__additionals row items-center gap-2 text-success-100">
+          <span v-if="hotel.hasBreakFast" class="hotel-card__details__additionals row items-center gap-2 text-success-100">
             <q-icon name="local_cafe" />
             Café da manhã
           </span>
@@ -51,21 +65,21 @@ import appButton from '../app-button.vue';
       <div class="hotel-card__price-details gap-8 column">
         <div class="hotel-card__price-details__daily column">
           <span class="text-info-300 text-weight-bold">Por dia</span>
-          <strong class="text-primary-100 price">R$ 100</strong>
+          <strong class="text-primary-100 price">{{ dailyPrice  }}</strong>
           <span class="text-info-100">No booking R$ 115</span>
         </div>
         <div class="hotel-card__price-details__daily text-info-300">
           <div class="grid-2-cols">
             <span>Diarias</span>
-            <span class="text-right">2x R$ 100,00</span>
+            <span class="text-right">{{ dailyPrice }}</span>
           </div>
           <div class="grid-2-cols">
             <span>Taxas</span>
-            <span class="text-right">2x R$ 80,00</span>
+            <span class="text-right">{{ tax }}</span>
           </div>
           <div class="grid-2-cols">
             <span>Total</span>
-            <span class="text-right">R$ 360</span>
+            <span class="text-right">{{  totalPrice}}</span>
           </div>
         </div>
         <app-button rounded>Ver detalhes</app-button>

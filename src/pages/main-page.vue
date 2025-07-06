@@ -1,7 +1,18 @@
 <script lang="ts" setup>
+import { useHotelsList } from 'src/composables/use-hotels-list';
 import mainPageHeader from '../components/main-page/main-page-header.vue';
-import HotelCard from "../components/hotels/hotel-card.vue";
 import MainPageSortSelection from '../components/main-page/main-page-sort-section.vue';
+import hotelCard from 'src/components/hotels/hotel-card.vue';
+import { computed, onBeforeMount, onMounted } from 'vue';
+
+const { fetchHotels, store } = useHotelsList()
+const { hotels } = store
+
+const isEmpty = computed(() => hotels.value.length === 0)
+
+onBeforeMount(() => fetchHotels())
+
+onMounted(() => { console.log(store.hotels.value)})
 </script>
 
 <template>
@@ -10,15 +21,15 @@ import MainPageSortSelection from '../components/main-page/main-page-sort-sectio
     <main-page-sort-selection></main-page-sort-selection>
 
     <ul class="hotels-list">
-      <li>
-        <hotel-card></hotel-card>
+      <li v-if="isEmpty" class="empty-list">
+        Nenhum resultado encontrado.
       </li>
-      <li>
-        <hotel-card></hotel-card>
-      </li>
-      <li>
-        <hotel-card></hotel-card>
-      </li>
+
+      <template v-else>
+        <li v-for="hotel in hotels" :key="hotel.id">
+          <hotel-card :hotel></hotel-card>
+        </li>
+      </template>
     </ul>
   </div>
 </template>
@@ -32,6 +43,7 @@ import MainPageSortSelection from '../components/main-page/main-page-sort-sectio
 
   .hotels-list{
     width: 100%;
+    min-height: 50vh;
     background-color: #FFF;
 
     border-top-left-radius: 80px;
@@ -45,6 +57,19 @@ import MainPageSortSelection from '../components/main-page/main-page-sort-sectio
 
     li{
       width: 100%;
+
+      &.empty-list{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex: 1;
+        padding-top: 2rem;
+
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: $info-300;
+      }
     }
 
     li + li{

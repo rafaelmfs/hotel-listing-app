@@ -1,5 +1,5 @@
 export type HotelProtocol = {
-  id: string;
+  id: number;
   name: string;
   stars: number;
   totalPrice: number;
@@ -10,7 +10,7 @@ export type HotelProtocol = {
   hasBreakFast?: boolean;
   hasRefundableRoom?: boolean;
   district: string;
-  placeId: string;
+  placeId: number;
 };
 
 export type HotelDetailsProtocol = {

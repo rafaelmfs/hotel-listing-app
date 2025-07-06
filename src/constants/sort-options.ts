@@ -1,10 +1,12 @@
 export const sortOptions = [
   {
     label: "Preço",
-    value: "price",
+    value: "totalPrice",
   },
   {
     label: "Estrelas",
     value: "stars",
   },
 ] as const;
+
+export const DEFAULT_SORT = "totalPrice";
