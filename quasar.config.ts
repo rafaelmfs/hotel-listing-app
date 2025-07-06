@@ -11,9 +11,6 @@ export default defineConfig((/* ctx */) => {
 
     build: {
       envFiles: [".env", ".env.local", ".env.test"],
-      env: {
-        BASE_URL: "http://localhost:3000",
-      },
       target: {
         browser: ["es2022", "firefox115", "chrome115", "safari14"],
         node: "node20",
@@ -39,6 +36,9 @@ export default defineConfig((/* ctx */) => {
           { server: false },
         ],
       ],
+      scss: {
+        additionalData: `@import "src/css/app.scss";`,
+      },
     },
 
     devServer: {

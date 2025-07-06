@@ -1,0 +1,21 @@
+@baseUrl = http://localhost:3000
+
+# @name hotels_list
+GET {{baseUrl}}/hotels
+
+###
+# @name hotels_list
+GET {{baseUrl}}/hotels?_page=1&_per_page=1
+
+
+###
+# @name hotel_details
+GET {{baseUrl}}/hotels_details/430
+
+###
+# @name hotels_by_city
+GET {{baseUrl}}/hotels?placeId=1
+
+###
+# @name cities
+GET {{baseUrl}}/cities
