@@ -14,3 +14,15 @@ const selectedCityId = ref<number | null>(null)
     </form-button>
   </form>
 </template>
+
+<style lang="scss">
+  .main-page__header__form{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .q-field{
+      max-width: 50%;
+    }
+  }
+</style>

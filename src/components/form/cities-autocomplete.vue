@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from 'vue';
 import { CitiesApiProxy } from 'src/services/proxy/cities-api-proxy';
+import type { OptionProtocol } from 'src/protocols/select-option-protocol';
 
-type Option = { label: string, value: number}
 
-const allOptions: Option[] = []
+const allOptions: OptionProtocol[] = []
 
 const model = defineModel()
-const options = ref<Option[]>([])
+const options = ref<OptionProtocol[]>([])
 
 function filterOptions(term: string, update: (callback: VoidFunction) => void){
   if(term.length < 3){
@@ -42,14 +42,15 @@ onBeforeMount(async () => {
     use-input
     input-debounce="0"
     label="Destino"
-    :options="options"
-    @filter="filterOptions"
     outlined
     dense
     options-dense
     input-class="input-field"
     dropdown-icon="keyboard_arrow_down"
     color="primary-100"
+    :menu-offset="[0, 4]"
+    @filter="filterOptions"
+    :options="options"
   >
     <template v-slot:no-option>
       <q-item>

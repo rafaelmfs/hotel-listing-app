@@ -11,7 +11,7 @@
     width: 100%;
     height: 100vh;
 
-    padding: 2rem;
+    padding: 2rem 2rem 0;
 
     background-color: $primary-100;
   }

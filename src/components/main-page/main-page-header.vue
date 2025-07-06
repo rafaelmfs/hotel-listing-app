@@ -23,19 +23,9 @@ const tab = ref("hotel")
   &__header{
     padding: 0.5rem;
     width: 90%;
-    background-color: white;
+    background-color: #FFF;
     border-radius: 16px;
-    box-shadow: 1px 2px 12px rgba($info-600, 0.2);
-
-    &__form{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      .q-field{
-        max-width: 50%;
-      }
-    }
+    box-shadow: 1px 6px 16px rgba($info-400, 0.4);
   }
 }
 

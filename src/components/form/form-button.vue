@@ -10,7 +10,7 @@
     align-items: center;
     gap: 0.8rem;
     background-color: $primary-100;
-    color: white;
+    color: #FFF;
     border-radius: 8px;
     padding: 0.5rem 1rem;
     transition: background-color 0.2s;
