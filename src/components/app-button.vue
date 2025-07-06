@@ -1,13 +1,20 @@
+<script setup lang="ts">
+  const props = defineProps<{
+    rounded?: boolean
+  }>()
+</script>
+
 <template>
-  <button class="form-button">
+  <button :class="{'app-button': true, 'app-button--rounded': props.rounded}">
     <slot />
   </button>
 </template>
 
 <style lang="scss">
-  .form-button{
+  .app-button{
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.8rem;
     background-color: $primary-100;
     color: #FFF;
@@ -17,6 +24,10 @@
     border: 1px solid $primary-100;
     box-shadow: 1px 1px 8px #00000060;
     font-size: 0.875rem;
+
+    &--rounded{
+      border-radius: 9999px;
+    }
 
     &:hover{
       cursor: pointer;
