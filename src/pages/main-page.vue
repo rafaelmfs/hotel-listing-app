@@ -3,34 +3,50 @@ import { useHotelsList } from 'src/composables/use-hotels-list';
 import mainPageHeader from '../components/main-page/main-page-header.vue';
 import MainPageSortSelection from '../components/main-page/main-page-sort-section.vue';
 import hotelCard from 'src/components/hotels/hotel-card.vue';
-import { computed, onBeforeMount, onMounted } from 'vue';
+import { computed } from 'vue';
 
 const { fetchHotels, store } = useHotelsList()
 const { hotels } = store
 
 const isEmpty = computed(() => hotels.value.length === 0)
 
-onBeforeMount(() => fetchHotels())
-
-onMounted(() => { console.log(store.hotels.value)})
+async function onLoad(index: number, done: (stop:boolean) => void){
+  try{
+    const { last } = await fetchHotels(index)
+    done(index > Number(last))
+  }catch(error){
+    console.error(error)
+    done(true)
+  }
+}
 </script>
 
 <template>
-  <div class="main-page column items-center gap-6">
+  <div class="main-page column items-center gap-4">
     <main-page-header></main-page-header>
     <main-page-sort-selection></main-page-sort-selection>
 
-    <ul class="hotels-list">
-      <li v-if="isEmpty" class="empty-list">
-        Nenhum resultado encontrado.
-      </li>
+    <div class="hotels">
+      <q-infinite-scroll @load="onLoad" :offset="250">
+        <ul class="hotels__list">
+          <li v-if="isEmpty" class="empty-list">
+            Nenhum resultado encontrado.
+          </li>
 
-      <template v-else>
-        <li v-for="hotel in hotels" :key="hotel.id">
-          <hotel-card :hotel></hotel-card>
-        </li>
-      </template>
-    </ul>
+          <template v-else>
+            <li v-for="hotel in hotels" :key="hotel.id">
+              <hotel-card :hotel></hotel-card>
+            </li>
+          </template>
+        </ul>
+        <template v-slot:loading>
+          <div class="row justify-center q-my-md">
+            <q-spinner-dots color="primary" size="40px" />
+          </div>
+        </template>
+      </q-infinite-scroll>
+    </div>
+
   </div>
 </template>
 
@@ -41,7 +57,7 @@ onMounted(() => { console.log(store.hotels.value)})
 
   }
 
-  .hotels-list{
+  .hotels{
     width: 100%;
     min-height: 50vh;
     background-color: #FFF;
@@ -52,8 +68,17 @@ onMounted(() => { console.log(store.hotels.value)})
     border-bottom-right-radius: 16px;
 
     padding: 3rem;
-    margin-top: -3rem;
-    list-style: none;
+    margin-top: -2.5rem;
+
+    @media(max-width: 991px){
+      padding: 2rem;
+      font-size: 80%;
+    }
+
+    &__list{
+      list-style: none;
+      padding: 0;
+    }
 
     li{
       width: 100%;

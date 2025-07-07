@@ -7,11 +7,11 @@ const selectedCityId = ref<number | null>(null)
 </script>
 
 <template>
-  <form class="main-page__header__form row items-center justify-between" @submit.prevent="">
+  <form class="main-page__header__form row items-center justify-between gap-3" @submit.prevent="">
     <cities-autocomplete v-bind:model-value="selectedCityId"></cities-autocomplete>
-    <AppButton type="submit">
+    <app-button type="submit">
       <q-icon name="search" /> Buscar hotel
-    </AppButton>
+    </app-button>
   </form>
 </template>
 
@@ -19,6 +19,17 @@ const selectedCityId = ref<number | null>(null)
   .main-page__header__form{
     .q-field{
       max-width: 50%;
+
+      @media(max-width: 768px) {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+
+    @media(max-width: 768px) {
+      .app-button{
+        width: 100%;
+      }
     }
   }
 </style>

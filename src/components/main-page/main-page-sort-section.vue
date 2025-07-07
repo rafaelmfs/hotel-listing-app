@@ -4,7 +4,7 @@ import SortSelect from "../form/sort-select.vue";
 import type { OptionProtocol } from 'src/protocols/select-option-protocol';
 import SearchInput from '../form/search-input.vue';
 
-  const search = ref('')
+  const search = ref<string>()
   const selectionModel = ref<OptionProtocol>()
 
 </script>

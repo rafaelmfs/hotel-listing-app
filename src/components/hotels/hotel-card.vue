@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import highlightInfo from '../highlight-info.vue';
-import appButton from '../app-button.vue';
+import AppButton from '../app-button.vue';
 import type { HotelProtocol } from 'src/protocols/hotels-protocol';
 import { AmenitiesTypes } from 'src/constants/amenitites-types';
 import { computed } from 'vue';
@@ -12,7 +12,7 @@ import { formatCurrencyNumber } from 'src/utils/format-currency-number';
 
   const { hotel } = props
 
-  const hotelAmenities = computed(() => hotel.amenities.map((item) => ({
+  const hotelAmenities = computed(() => hotel?.amenities?.map((item) => ({
     iconName: AmenitiesTypes?.[item as keyof typeof AmenitiesTypes],
     title: item
   })))
@@ -28,7 +28,7 @@ import { formatCurrencyNumber } from 'src/utils/format-currency-number';
       <q-img
         :src="hotel.thumb"
         spinner-color="white"
-        height="inherit"
+        height="100%"
       />
       <div class="hotel-card__ratings">
         <q-rating
@@ -36,6 +36,9 @@ import { formatCurrencyNumber } from 'src/utils/format-currency-number';
           size="1.2em"
           color="info-500"
           color-selected="primary-200"
+          :style="{
+            flexWrap: 'no-wrap'
+          }"
           readonly
         />
       </div>
@@ -93,11 +96,15 @@ import { formatCurrencyNumber } from 'src/utils/format-currency-number';
 .hotel-card{
   &__container{
     width: 100%;
-    height: 300px;
     border-radius: 24px;
     display: grid;
     grid-template-columns: 25% auto;
     overflow: hidden;
+
+    @media(max-width: 991px){
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   &__tumb{
@@ -105,7 +112,6 @@ import { formatCurrencyNumber } from 'src/utils/format-currency-number';
     overflow: hidden;
     height: inherit;
     position: relative;
-
 
     img{
       scale: 1.1;
@@ -116,6 +122,10 @@ import { formatCurrencyNumber } from 'src/utils/format-currency-number';
       img{
         scale: 1;
       }
+    }
+
+    @media(max-width: 991px){
+      max-height: 300px;
     }
   }
 
@@ -129,12 +139,22 @@ import { formatCurrencyNumber } from 'src/utils/format-currency-number';
     left: 50%;
     transform: translateX(-50%);
     bottom: 0.5rem;
+
+    .q-rating.row{
+      flex-wrap: nowrap;
+    }
   }
 
   &__content{
     padding: 1rem 2rem;
     display: grid;
     grid-template-columns: 1fr minmax(200px, 20%);
+
+    @media(max-width: 768px){
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
   }
 
 

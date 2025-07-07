@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const search = defineModel<string>('')
+  const search = defineModel<string>()
 </script>
 
 <template>

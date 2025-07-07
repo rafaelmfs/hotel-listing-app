@@ -7,24 +7,21 @@ import { useHotelListStore } from "src/stores/hotels-list-store";
 
 // type SelectedHotel = HotelProtocol & HotelDetailsProtocol;
 
-const DEFAULT_PAGE = 1;
-
 export function useHotelsList() {
   const store = useHotelListStore();
   const storeData = storeToRefs(store);
 
-  let nextPage = DEFAULT_PAGE;
-
-  const fetchHotels = async () => {
+  const fetchHotels = async (page: number) => {
     const hotelsApiService = new HotelsApiService();
     const hotelResponse = await hotelsApiService.getHotels({
-      page: nextPage,
+      page,
       itemsPerPage: 20,
       orderBy: DEFAULT_SORT,
     });
 
-    store.updateHotels(hotelResponse.data);
-    nextPage = hotelResponse.next ?? DEFAULT_PAGE;
+    store.addHotels(hotelResponse.data);
+
+    return hotelResponse;
   };
 
   // const findByName = async () => {};
