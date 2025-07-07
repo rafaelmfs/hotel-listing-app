@@ -1,4 +1,4 @@
-export const sortOptions = [
+export const sortOptions: Array<{ label: string; value: string }> = [
   {
     label: "Preço",
     value: "totalPrice",
@@ -8,5 +8,3 @@ export const sortOptions = [
     value: "stars",
   },
 ] as const;
-
-export const DEFAULT_SORT = "totalPrice";

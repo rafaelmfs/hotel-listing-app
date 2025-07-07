@@ -1,21 +1,17 @@
 import type { HotelDetailsProtocol, HotelProtocol } from "./hotels-protocol";
-import type {
-  PaginatedResponse,
-  PaginationProtocol,
-} from "./pagination-protocol";
+import type { PaginationProtocol } from "./pagination-protocol";
 
 export type FindByNameParams = {
   name: string;
+  cityId?: string;
 };
 
 export type FindByCityParams = PaginationProtocol & {
-  cityId: string;
+  cityId: number;
 };
 
-export type GetHotelsServiceResponse = PaginatedResponse<HotelProtocol[]>;
-
 export interface HotelsServiceProtocol {
-  getHotels(params: PaginationProtocol): Promise<GetHotelsServiceResponse>;
+  getHotels(params: PaginationProtocol): Promise<HotelProtocol[]>;
 
   getById(id: string): Promise<{ hotel: HotelDetailsProtocol }>;
 
@@ -23,5 +19,5 @@ export interface HotelsServiceProtocol {
     params: FindByNameParams
   ): Promise<{ hotel: HotelDetailsProtocol }>;
 
-  findByCity(params: FindByCityParams): Promise<GetHotelsServiceResponse>;
+  findByCity(params: FindByCityParams): Promise<HotelProtocol[]>;
 }

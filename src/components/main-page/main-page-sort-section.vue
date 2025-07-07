@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import SortSelect from "../form/sort-select.vue";
-import type { OptionProtocol } from 'src/protocols/select-option-protocol';
 import SearchInput from '../form/search-input.vue';
 
   const search = ref<string>()
-  const selectionModel = ref<OptionProtocol>()
+
 
 </script>
 
 <template>
     <div class="sort-section row items-center justify-center gap-3">
-      <sort-select :v-model="selectionModel"></sort-select>
+      <sort-select></sort-select>
       <div class="sort-section__search-input">
         <search-input placeholder="nome do hotel" v-model="search"></search-input>
       </div>

@@ -1,8 +1,5 @@
 import type { AxiosInstance } from "axios";
-import type {
-  PaginatedResponse,
-  PaginationProtocol,
-} from "src/protocols/pagination-protocol";
+import type { PaginationProtocol } from "src/protocols/pagination-protocol";
 import { UrlBuilder } from "./url-builder";
 import { hotelsEndpoint } from "./constants";
 import { api } from "src/boot/axios";
@@ -19,17 +16,20 @@ import type {
 export class HotelsApiService implements HotelsServiceProtocol {
   private readonly apiInstance: AxiosInstance = api;
 
-  async getHotels({ page, itemsPerPage, orderBy }: PaginationProtocol) {
+  async getHotels({
+    page,
+    itemsPerPage,
+    orderByName,
+    orderByType,
+  }: PaginationProtocol) {
     const url = new UrlBuilder(hotelsEndpoint)
       .withPagination({ page, itemsPerPage })
-      .withSorting({ orderBy })
+      .withSorting({ orderByName, orderByType })
       .getUrl();
 
-    const { data } = await this.apiInstance<PaginatedResponse<HotelProtocol[]>>(
-      url
-    );
+    const response = await this.apiInstance<HotelProtocol[]>(url);
 
-    return data;
+    return response.data;
   }
 
   async getById(id: string) {
@@ -40,32 +40,44 @@ export class HotelsApiService implements HotelsServiceProtocol {
     return { hotel: data };
   }
 
-  async findByName({ name }: FindByNameParams) {
-    const url = new UrlBuilder(hotelsEndpoint)
+  async findByName({ name, cityId }: FindByNameParams) {
+    let url = new UrlBuilder(hotelsEndpoint)
       .withSearch({
-        label: "name",
-        value: name,
+        search: name,
       })
       .getUrl();
+
+    if (cityId) {
+      url = new UrlBuilder(url)
+        .filterBy({
+          label: "placeId",
+          value: cityId,
+        })
+        .getUrl();
+    }
 
     const { data } = await this.apiInstance<HotelDetailsProtocol>(url);
 
     return { hotel: data };
   }
 
-  async findByCity({ cityId, itemsPerPage, orderBy, page }: FindByCityParams) {
+  async findByCity({
+    cityId,
+    itemsPerPage,
+    orderByName,
+    orderByType,
+    page,
+  }: FindByCityParams) {
     const url = new UrlBuilder(hotelsEndpoint)
       .withPagination({ page, itemsPerPage })
-      .withSorting({ orderBy })
-      .withSearch({
+      .withSorting({ orderByName, orderByType })
+      .filterBy({
         label: "placeId",
-        value: cityId,
+        value: String(cityId),
       })
       .getUrl();
 
-    const { data } = await this.apiInstance<PaginatedResponse<HotelProtocol[]>>(
-      url
-    );
+    const { data } = await this.apiInstance<HotelProtocol[]>(url);
 
     return data;
   }

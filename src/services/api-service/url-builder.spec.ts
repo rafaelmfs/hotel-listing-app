@@ -31,15 +31,17 @@ describe("UrlBuilder", () => {
 
   it("should add sorting parameter correctly", () => {
     const url = new UrlBuilder("https://api.exemplo.com/users").withSorting({
-      orderBy: "name",
+      orderByName: "name",
     });
 
-    expect(url.getUrl()).toBe("https://api.exemplo.com/users?sort=name");
+    expect(url.getUrl()).toBe(
+      "https://api.exemplo.com/users?_sort=name&_order=asc"
+    );
   });
 
   it("should not add sorting parameter if orderBy is undefined", () => {
     const url = new UrlBuilder("https://api.exemplo.com/users").withSorting({
-      orderBy: undefined,
+      orderByName: undefined,
     });
 
     expect(url.getUrl()).toBe("https://api.exemplo.com/users");
@@ -47,29 +49,30 @@ describe("UrlBuilder", () => {
 
   it("should add custom search parameters", () => {
     const url = new UrlBuilder("https://api.exemplo.com/users").withSearch({
-      label: "search",
-      value: "john",
+      search: "john",
     });
 
-    expect(url.getUrl()).toBe("https://api.exemplo.com/users?search=john");
+    expect(url.getUrl()).toBe("https://api.exemplo.com/users?q=john");
   });
 
   it("should allow method chaining", () => {
     const url = new UrlBuilder("https://api.exemplo.com/users")
       .withPagination({ page: 1, itemsPerPage: 20 })
-      .withSorting({ orderBy: "created_at" })
-      .withSearch({ label: "active", value: "true" });
+      .withSorting({ orderByName: "created_at" })
+      .withSearch({ search: "active" });
 
     expect(url.getUrl()).toBe(
-      "https://api.exemplo.com/users?_page=1&_per_page=20&sort=created_at&active=true"
+      "https://api.exemplo.com/users?_page=1&_per_page=20&_sort=created_at&_order=asc&q=active"
     );
   });
 
   it("should keep previous instances immutable", () => {
     const base = new UrlBuilder("https://api.exemplo.com/users");
-    const sorted = base.withSorting({ orderBy: "id" });
+    const sorted = base.withSorting({ orderByName: "id" });
 
     expect(base.getUrl()).toBe("https://api.exemplo.com/users");
-    expect(sorted.getUrl()).toBe("https://api.exemplo.com/users?sort=id");
+    expect(sorted.getUrl()).toBe(
+      "https://api.exemplo.com/users?_sort=id&_order=asc"
+    );
   });
 });

@@ -2,11 +2,14 @@
 import { onBeforeMount, ref } from 'vue';
 import { CitiesApiProxy } from 'src/services/proxy/cities-api-proxy';
 import type { OptionProtocol } from 'src/protocols/select-option-protocol';
+import { useHotelListStore } from 'src/stores/hotels-list-store';
+import { storeToRefs } from 'pinia';
 
+const store = useHotelListStore()
+const { selectedCity } = storeToRefs(store)
 
 const allOptions: OptionProtocol[] = []
 
-const model = defineModel()
 const options = ref<OptionProtocol[]>([])
 
 function filterOptions(term: string, update: (callback: VoidFunction) => void){
@@ -36,7 +39,7 @@ onBeforeMount(async () => {
 
 <template>
   <q-select
-    v-model="model"
+    v-model="selectedCity"
     option-label="label"
     option-value="value"
     use-input

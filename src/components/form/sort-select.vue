@@ -1,17 +1,18 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import { sortOptions } from 'src/constants/sort-options';
-import type { OptionProtocol } from 'src/protocols/select-option-protocol';
+import { useHotelListStore } from 'src/stores/hotels-list-store';
 
-  const model = defineModel<OptionProtocol>({
-    default: sortOptions[0]
-  })
+  const hotelListStore = useHotelListStore()
+  const { orderBy } = storeToRefs(hotelListStore)
+
 </script>
 
 <template>
   <q-select
     borderless
     dense
-    v-model="model"
+    v-model="orderBy"
     dropdown-icon="keyboard_arrow_down"
     option-label="label"
     option-value="value"
@@ -21,10 +22,11 @@ import type { OptionProtocol } from 'src/protocols/select-option-protocol';
     class="sort-section__select"
     :menu-offset="[0, 4]"
     :options="sortOptions"
-    :display-value="`Ordernar por: ${model?.label}`"
+    :display-value="`Ordernar por: ${orderBy?.label}`"
   >
     <template v-slot:prepend>
       <q-icon name="swap_vert" />
+
     </template>
   </q-select>
 </template>

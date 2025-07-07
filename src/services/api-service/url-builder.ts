@@ -1,8 +1,12 @@
 import type { PaginationProtocol } from "src/protocols/pagination-protocol";
 
 type WithPaginationParams = Pick<PaginationProtocol, "page" | "itemsPerPage">;
-type WithSortingParams = Pick<PaginationProtocol, "orderBy">;
-type WithSearch = { label: string; value: string };
+type WithSortingParams = Pick<
+  PaginationProtocol,
+  "orderByName" | "orderByType"
+>;
+type WithSearch = { search: string };
+type FilterBy = { label: string; value: string | number };
 
 export class UrlBuilder {
   constructor(private readonly _url: string) {}
@@ -12,7 +16,6 @@ export class UrlBuilder {
   }
 
   withPagination({ page = 1, itemsPerPage = 10 }: WithPaginationParams) {
-    console.log(this._url);
     const url = new URL(this._url);
 
     url.searchParams.set("_page", String(page));
@@ -21,21 +24,30 @@ export class UrlBuilder {
     return new UrlBuilder(url.toString());
   }
 
-  withSorting({ orderBy }: WithSortingParams) {
-    if (!orderBy) {
+  withSorting({ orderByName, orderByType = "asc" }: WithSortingParams) {
+    if (!orderByName) {
       return this;
     }
 
     const url = new URL(this._url);
-    url.searchParams.set("sort", String(orderBy));
+    url.searchParams.set("_sort", String(orderByName));
+    url.searchParams.set("_order", String(orderByType));
 
     return new UrlBuilder(url.toString());
   }
 
-  withSearch({ label, value }: WithSearch) {
+  withSearch({ search }: WithSearch) {
     const url = new URL(this._url);
 
-    url.searchParams.set(label, value);
+    url.searchParams.set("q", search);
+
+    return new UrlBuilder(url.toString());
+  }
+
+  filterBy({ label, value }: FilterBy) {
+    const url = new URL(this._url);
+
+    url.searchParams.set(label, String(value));
 
     return new UrlBuilder(url.toString());
   }

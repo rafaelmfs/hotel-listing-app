@@ -1,14 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import citiesAutocomplete from '../form/cities-autocomplete.vue';
 import AppButton from '../app-button.vue';
+import { useHotelListStore } from 'src/stores/hotels-list-store';
 
-const selectedCityId = ref<number | null>(null)
+const store = useHotelListStore()
+
+async function handleSubmit(){
+  await store.fetchHotels({
+    page: 1
+  })
+}
+
 </script>
 
 <template>
-  <form class="main-page__header__form row items-center justify-between gap-3" @submit.prevent="">
-    <cities-autocomplete v-bind:model-value="selectedCityId"></cities-autocomplete>
+  <form class="main-page__header__form row items-center justify-between gap-3" @submit.prevent="handleSubmit">
+    <cities-autocomplete></cities-autocomplete>
     <app-button type="submit">
       <q-icon name="search" /> Buscar hotel
     </app-button>

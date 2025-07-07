@@ -1,19 +1,23 @@
 <script lang="ts" setup>
-import { useHotelsList } from 'src/composables/use-hotels-list';
+import { useHotelListStore } from 'src/stores/hotels-list-store';
 import mainPageHeader from '../components/main-page/main-page-header.vue';
 import MainPageSortSelection from '../components/main-page/main-page-sort-section.vue';
 import hotelCard from 'src/components/hotels/hotel-card.vue';
 import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 
-const { fetchHotels, store } = useHotelsList()
-const { hotels } = store
+const store = useHotelListStore()
+const { hotels } = storeToRefs(store)
 
 const isEmpty = computed(() => hotels.value.length === 0)
 
 async function onLoad(index: number, done: (stop:boolean) => void){
   try{
-    const { last } = await fetchHotels(index)
-    done(index > Number(last))
+    const data = await store.fetchHotels({
+      page: index
+    })
+    done(data.length === 0)
+
   }catch(error){
     console.error(error)
     done(true)
