@@ -5,13 +5,16 @@ import { hotelsEndpoint } from "./constants";
 import { api } from "src/boot/axios";
 import type {
   FindByCityParams,
-  FindByNameParams,
   HotelsServiceProtocol,
 } from "src/protocols/hotels-service-protocol";
 import type {
   HotelDetailsProtocol,
   HotelProtocol,
 } from "src/protocols/hotels-protocol";
+
+type GetHotels = PaginationProtocol & {
+  term?: string;
+};
 
 export class HotelsApiService implements HotelsServiceProtocol {
   private readonly apiInstance: AxiosInstance = api;
@@ -21,10 +24,12 @@ export class HotelsApiService implements HotelsServiceProtocol {
     itemsPerPage,
     orderByName,
     orderByType,
-  }: PaginationProtocol) {
+    term,
+  }: GetHotels) {
     const url = new UrlBuilder(hotelsEndpoint)
       .withPagination({ page, itemsPerPage })
       .withSorting({ orderByName, orderByType })
+      .withSearch({ search: term })
       .getUrl();
 
     const response = await this.apiInstance<HotelProtocol[]>(url);
@@ -40,33 +45,13 @@ export class HotelsApiService implements HotelsServiceProtocol {
     return { hotel: data };
   }
 
-  async findByName({ name, cityId }: FindByNameParams) {
-    let url = new UrlBuilder(hotelsEndpoint)
-      .withSearch({
-        search: name,
-      })
-      .getUrl();
-
-    if (cityId) {
-      url = new UrlBuilder(url)
-        .filterBy({
-          label: "placeId",
-          value: cityId,
-        })
-        .getUrl();
-    }
-
-    const { data } = await this.apiInstance<HotelDetailsProtocol>(url);
-
-    return { hotel: data };
-  }
-
   async findByCity({
     cityId,
     itemsPerPage,
     orderByName,
     orderByType,
     page,
+    term,
   }: FindByCityParams) {
     const url = new UrlBuilder(hotelsEndpoint)
       .withPagination({ page, itemsPerPage })
@@ -75,6 +60,7 @@ export class HotelsApiService implements HotelsServiceProtocol {
         label: "placeId",
         value: String(cityId),
       })
+      .withSearch({ search: term })
       .getUrl();
 
     const { data } = await this.apiInstance<HotelProtocol[]>(url);

@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import SortSelect from "../form/sort-select.vue";
 import SearchInput from '../form/search-input.vue';
+import { useHotelListStore } from 'src/stores/hotels-list-store';
+import { storeToRefs } from 'pinia';
 
-  const search = ref<string>()
+  const store = useHotelListStore()
+  const { searchTerm } = storeToRefs(store)
 
 
 </script>
@@ -12,7 +14,7 @@ import SearchInput from '../form/search-input.vue';
     <div class="sort-section row items-center justify-center gap-3">
       <sort-select></sort-select>
       <div class="sort-section__search-input">
-        <search-input placeholder="nome do hotel" v-model="search"></search-input>
+        <search-input placeholder="nome do hotel" v-model="searchTerm"></search-input>
       </div>
     </div>
 </template>

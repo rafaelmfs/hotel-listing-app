@@ -1,3 +1,4 @@
+import debounce from "lodash.debounce";
 import { defineStore } from "pinia";
 import { sortOptions } from "src/constants/sort-options";
 import type { HotelProtocol } from "src/protocols/hotels-protocol";
@@ -18,6 +19,7 @@ export const useHotelListStore = defineStore("hotels", () => {
   const orderByType = computed(() =>
     orderByProperty.value.value === "stars" ? "desc" : "asc"
   );
+  const searchTerm = ref<string>();
 
   function setHotels(items: HotelProtocol[]) {
     hotels.value = items;
@@ -37,12 +39,14 @@ export const useHotelListStore = defineStore("hotels", () => {
             cityId: Number(selectedCity.value?.value),
             orderByName,
             orderByType: orderByType.value,
+            term: searchTerm.value,
             ...params,
           })
       : () =>
           hotelsApiService.getHotels({
             orderByName,
             orderByType: orderByType.value,
+            term: searchTerm.value,
             ...params,
           });
 
@@ -57,6 +61,17 @@ export const useHotelListStore = defineStore("hotels", () => {
     return hotels;
   }
 
+  const fetchDebounce = debounce(
+    () =>
+      fetchHotels({
+        page: 1,
+        itemsPerPage: 20,
+        orderByName: orderByProperty.value.value,
+        orderByType: orderByType.value,
+      }),
+    500
+  );
+
   watch(orderByProperty, async (newOrder) => {
     await fetchHotels({
       page: 1,
@@ -66,7 +81,10 @@ export const useHotelListStore = defineStore("hotels", () => {
     });
   });
 
+  watch(searchTerm, fetchDebounce);
+
   return {
+    searchTerm,
     hotels,
     selectedHotel,
     orderBy: orderByProperty,

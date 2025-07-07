@@ -5,7 +5,7 @@ type WithSortingParams = Pick<
   PaginationProtocol,
   "orderByName" | "orderByType"
 >;
-type WithSearch = { search: string };
+type WithSearch = { search?: string };
 type FilterBy = { label: string; value: string | number };
 
 export class UrlBuilder {
@@ -37,6 +37,10 @@ export class UrlBuilder {
   }
 
   withSearch({ search }: WithSearch) {
+    if (!search) {
+      return this;
+    }
+
     const url = new URL(this._url);
 
     url.searchParams.set("q", search);

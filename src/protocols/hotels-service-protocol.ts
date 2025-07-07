@@ -8,16 +8,13 @@ export type FindByNameParams = {
 
 export type FindByCityParams = PaginationProtocol & {
   cityId: number;
+  term?: string;
 };
 
 export interface HotelsServiceProtocol {
   getHotels(params: PaginationProtocol): Promise<HotelProtocol[]>;
 
   getById(id: string): Promise<{ hotel: HotelDetailsProtocol }>;
-
-  findByName(
-    params: FindByNameParams
-  ): Promise<{ hotel: HotelDetailsProtocol }>;
 
   findByCity(params: FindByCityParams): Promise<HotelProtocol[]>;
 }
