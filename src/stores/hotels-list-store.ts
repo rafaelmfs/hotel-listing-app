@@ -2,9 +2,13 @@ import debounce from "lodash.debounce";
 import { defineStore } from "pinia";
 import { sortOptions } from "src/constants/sort-options";
 import type { HotelProtocol } from "src/protocols/hotels-protocol";
+import type { FindByCityParams } from "src/protocols/hotels-service-protocol";
 import type { PaginationProtocol } from "src/protocols/pagination-protocol";
 import type { OptionProtocol } from "src/protocols/select-option-protocol";
-import { HotelsApiService } from "src/services/api-service/hotels-api-service";
+import {
+  HotelsApiService,
+  type GetHotelsParams,
+} from "src/services/api-service/hotels-api-service";
 import { computed, ref, watch } from "vue";
 
 const hotelsApiService = new HotelsApiService();
@@ -16,7 +20,7 @@ export const useHotelListStore = defineStore("hotels", () => {
   const selectedHotel = ref<number | null>(null);
   const orderByProperty = ref<OrderByOptions>(sortOptions[0] as OrderByOptions);
   const selectedCity = ref<OptionProtocol>();
-  const orderByType = computed(() =>
+  const orderByType = computed<"desc" | "asc">(() =>
     orderByProperty.value.value === "stars" ? "desc" : "asc"
   );
   const searchTerm = ref<string>();
@@ -33,22 +37,24 @@ export const useHotelListStore = defineStore("hotels", () => {
     orderByName = orderByProperty.value?.value,
     ...params
   }: PaginationProtocol): Promise<HotelProtocol[]> {
+    const hasCityId = !!selectedCity.value?.value;
+
+    const makeParams = (): GetHotelsParams | FindByCityParams => {
+      const baseParams = {
+        orderByName,
+        orderByType: orderByType.value,
+        term: searchTerm.value,
+        ...params,
+      };
+
+      return hasCityId
+        ? { ...baseParams, cityId: Number(selectedCity.value!.value) }
+        : baseParams;
+    };
+
     const source = selectedCity.value?.value
-      ? () =>
-          hotelsApiService.findByCity({
-            cityId: Number(selectedCity.value?.value),
-            orderByName,
-            orderByType: orderByType.value,
-            term: searchTerm.value,
-            ...params,
-          })
-      : () =>
-          hotelsApiService.getHotels({
-            orderByName,
-            orderByType: orderByType.value,
-            term: searchTerm.value,
-            ...params,
-          });
+      ? () => hotelsApiService.findByCity(makeParams() as FindByCityParams)
+      : () => hotelsApiService.getHotels(makeParams());
 
     const hotels = await source();
 

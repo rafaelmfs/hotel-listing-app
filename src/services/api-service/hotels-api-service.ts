@@ -12,7 +12,7 @@ import type {
   HotelProtocol,
 } from "src/protocols/hotels-protocol";
 
-type GetHotels = PaginationProtocol & {
+export type GetHotelsParams = PaginationProtocol & {
   term?: string;
 };
 
@@ -25,7 +25,7 @@ export class HotelsApiService implements HotelsServiceProtocol {
     orderByName,
     orderByType,
     term,
-  }: GetHotels) {
+  }: GetHotelsParams) {
     const url = new UrlBuilder(hotelsEndpoint)
       .withPagination({ page, itemsPerPage })
       .withSorting({ orderByName, orderByType })
