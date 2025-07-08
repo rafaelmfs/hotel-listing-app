@@ -63,7 +63,5 @@ Para a listagem, utilizei o `infinite-scroll` do quasar, o carousel e o Drawer t
 
 Para gerenciamento dos filtros da listagem, optei por utilizar o `pinia`, uma biblioteca de gerenciamento de estados globais. É onde salvo as informações dos hotéis e os filtros.
 
-Tive várias dificuldades nesse projeto mas isso me trouxe vários aprendizados também, o maior desafio foi utilizar o `quasar` que é uma tecnologia que ainda não tinha nenhum conhecimento e agora vi que existem um framework bem completo para vuejs, acredito que tenham formas melhores para fazer essa solução, configurações e padrões de utilizar o quasar, mas por enquanto estou bem satisfeito com essa implementação que consegui entregar e pretendo continuar evoluindo com essa tecnologia.
-
 Para rodar o projeto, 
 bata fazer o clone do repositório ou baixar os arquivos, é necessário ter o node acima da versão 16 instalado, abra a pasta do projeto no seu terminal e então rode alguns comandos, o comando `npm install` para instalar as dependencias e o comando `npm run dev` para rodar em modo de desenvolvimento, no terminal vai aparecer um link em localhost para que possa visualizar o projeto no seu navegador.
