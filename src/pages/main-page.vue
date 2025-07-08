@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { useHotelListStore } from 'src/stores/hotels-list-store';
-import mainPageHeader from '../components/main-page/main-page-header.vue';
-import MainPageSortSelection from '../components/main-page/main-page-sort-section.vue';
-import hotelCard from 'src/components/hotels/hotel-card.vue';
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useHotelListStore } from 'src/stores/hotels-list-store';
+import MainPageHeader from '../components/main-page/main-page-header.vue';
+import MainPageSortSelection from '../components/main-page/main-page-sort-section.vue';
+import hotelCard from 'src/components/hotels/hotel-card.vue';
+import HotelDetailsDialog from 'src/components/hotels/hotel-details-dialog.vue';
 
 const store = useHotelListStore()
 const { hotels } = storeToRefs(store)
@@ -23,6 +24,7 @@ async function onLoad(index: number, done: (stop:boolean) => void){
     done(true)
   }
 }
+
 </script>
 
 <template>
@@ -51,6 +53,7 @@ async function onLoad(index: number, done: (stop:boolean) => void){
       </q-infinite-scroll>
     </div>
 
+    <hotel-details-dialog></hotel-details-dialog>
   </div>
 </template>
 

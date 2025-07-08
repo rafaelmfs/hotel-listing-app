@@ -17,7 +17,7 @@ type OrderByOptions = { label: string; value: string };
 
 export const useHotelListStore = defineStore("hotels", () => {
   const hotels = ref<HotelProtocol[]>([]);
-  const selectedHotel = ref<number | null>(null);
+  const selectedHotel = ref<HotelProtocol | null>(null);
   const orderByProperty = ref<OrderByOptions>(sortOptions[0] as OrderByOptions);
   const selectedCity = ref<OptionProtocol>();
   const orderByType = computed<"desc" | "asc">(() =>

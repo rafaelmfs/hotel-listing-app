@@ -1,7 +1,7 @@
 import type { AxiosInstance } from "axios";
 import type { PaginationProtocol } from "src/protocols/pagination-protocol";
 import { UrlBuilder } from "./url-builder";
-import { hotelsEndpoint } from "./constants";
+import { hotelDetailsEndpoint, hotelsEndpoint } from "./constants";
 import { api } from "src/boot/axios";
 import type {
   FindByCityParams,
@@ -37,9 +37,9 @@ export class HotelsApiService implements HotelsServiceProtocol {
     return response.data;
   }
 
-  async getById(id: string) {
+  async getById(id: number) {
     const { data } = await this.apiInstance<HotelDetailsProtocol>(
-      `${hotelsEndpoint}/${id}`
+      `${hotelDetailsEndpoint}/${id}`
     );
 
     return { hotel: data };

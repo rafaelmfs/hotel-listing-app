@@ -5,10 +5,14 @@ import type { HotelProtocol } from 'src/protocols/hotels-protocol';
 import { AmenitiesTypes } from 'src/constants/amenitites-types';
 import { computed } from 'vue';
 import { formatCurrencyNumber } from 'src/utils/format-currency-number';
+import { useHotelListStore } from 'src/stores/hotels-list-store';
+import { storeToRefs } from 'pinia';
 
   const props = defineProps<{
     hotel: HotelProtocol
   }>()
+  const store = useHotelListStore()
+  const { selectedHotel } = storeToRefs(store)
 
   const { hotel } = props
 
@@ -19,6 +23,10 @@ import { formatCurrencyNumber } from 'src/utils/format-currency-number';
 
   const currencyProperties = ['tax', 'dailyPrice', 'totalPrice'] as const
   const [tax, dailyPrice, totalPrice] = currencyProperties.map((value) => formatCurrencyNumber(hotel[value]))
+
+  function handleShowDetails(){
+    selectedHotel.value = hotel
+  }
 
 </script>
 
@@ -85,7 +93,7 @@ import { formatCurrencyNumber } from 'src/utils/format-currency-number';
             <span class="text-right">{{  totalPrice}}</span>
           </div>
         </div>
-        <app-button rounded>Ver detalhes</app-button>
+        <app-button @click="handleShowDetails"  rounded>Ver detalhes</app-button>
       </div>
     </div>
   </div>
@@ -102,6 +110,7 @@ import { formatCurrencyNumber } from 'src/utils/format-currency-number';
     overflow: hidden;
 
     @media(max-width: 991px){
+      border-radius: 12px;
       display: flex;
       flex-direction: column;
     }
