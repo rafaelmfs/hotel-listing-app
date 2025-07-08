@@ -1,22 +1,25 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useHotelListStore } from 'src/stores/hotels-list-store';
 import MainPageHeader from '../components/main-page/main-page-header.vue';
 import MainPageSortSelection from '../components/main-page/main-page-sort-section.vue';
 import hotelCard from 'src/components/hotels/hotel-card.vue';
 import HotelDetailsDialog from 'src/components/hotels/hotel-details-dialog.vue';
+import { useFetchHotelList } from 'src/composables/use-fetch-hotel-list';
+import { DEFAULT_PAGE } from 'src/constants/pagination-constants';
 
 const store = useHotelListStore()
-const { hotels } = storeToRefs(store)
+const { hotels, selectedCity, currentPage } = storeToRefs(store)
+const { fetchHotels } = useFetchHotelList()
 
 const isEmpty = computed(() => hotels.value.length === 0)
 
-async function onLoad(index: number, done: (stop:boolean) => void){
+const inityRef = ref()
+
+async function onLoad(_: number, done: (stop:boolean) => void){
   try{
-    const data = await store.fetchHotels({
-      page: index
-    })
+    const data = await fetchHotels({  })
     done(data.length === 0)
 
   }catch(error){
@@ -24,6 +27,11 @@ async function onLoad(index: number, done: (stop:boolean) => void){
     done(true)
   }
 }
+
+
+watch(selectedCity, () => {
+  currentPage.value = DEFAULT_PAGE
+})
 
 </script>
 
@@ -33,7 +41,7 @@ async function onLoad(index: number, done: (stop:boolean) => void){
     <main-page-sort-selection></main-page-sort-selection>
 
     <div class="hotels">
-      <q-infinite-scroll @load="onLoad" :offset="250">
+      <q-infinite-scroll :ref="inityRef"  @load="onLoad" :offset="250">
         <ul class="hotels__list">
           <li v-if="isEmpty" class="empty-list">
             Nenhum resultado encontrado.

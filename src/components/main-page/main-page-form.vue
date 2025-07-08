@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import citiesAutocomplete from '../form/cities-autocomplete.vue';
 import AppButton from '../app-button.vue';
-import { useHotelListStore } from 'src/stores/hotels-list-store';
 import { DEFAULT_PAGE } from 'src/constants/pagination-constants';
+import { useFetchHotelList } from 'src/composables/use-fetch-hotel-list';
 
-const store = useHotelListStore()
+const { fetchHotels } = useFetchHotelList()
 
 async function handleSubmit(){
-  await store.fetchHotels({
+  await fetchHotels({
     page: DEFAULT_PAGE
   })
 }
