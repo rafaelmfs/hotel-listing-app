@@ -25,7 +25,7 @@ describe("UrlBuilder", () => {
     });
 
     expect(url.getUrl()).toBe(
-      "https://api.exemplo.com/users?_page=1&_per_page=10"
+      "https://api.exemplo.com/users?_page=1&_per_page=20"
     );
   });
 

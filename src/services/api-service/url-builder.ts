@@ -1,3 +1,9 @@
+import { QUERY_PARAMS_KEYS } from "src/constants/api-constants";
+import {
+  DEFAULT_ITEMS_PER_PAGE,
+  DEFAULT_PAGE,
+} from "src/constants/pagination-constants";
+import { ORDER_TYPES } from "src/constants/sort-options";
 import type { PaginationProtocol } from "src/protocols/pagination-protocol";
 
 type WithPaginationParams = Pick<PaginationProtocol, "page" | "itemsPerPage">;
@@ -15,23 +21,29 @@ export class UrlBuilder {
     return this._url;
   }
 
-  withPagination({ page = 1, itemsPerPage = 10 }: WithPaginationParams) {
+  withPagination({
+    page = DEFAULT_PAGE,
+    itemsPerPage = DEFAULT_ITEMS_PER_PAGE,
+  }: WithPaginationParams) {
     const url = new URL(this._url);
 
-    url.searchParams.set("_page", String(page));
-    url.searchParams.set("_per_page", String(itemsPerPage));
+    url.searchParams.set(QUERY_PARAMS_KEYS.PAGE, String(page));
+    url.searchParams.set(QUERY_PARAMS_KEYS.PER_PAGE, String(itemsPerPage));
 
     return new UrlBuilder(url.toString());
   }
 
-  withSorting({ orderByName, orderByType = "asc" }: WithSortingParams) {
+  withSorting({
+    orderByName,
+    orderByType = ORDER_TYPES.ASCENDING,
+  }: WithSortingParams) {
     if (!orderByName) {
       return this;
     }
 
     const url = new URL(this._url);
-    url.searchParams.set("_sort", String(orderByName));
-    url.searchParams.set("_order", String(orderByType));
+    url.searchParams.set(QUERY_PARAMS_KEYS.SORT, String(orderByName));
+    url.searchParams.set(QUERY_PARAMS_KEYS.ORDER_BY, String(orderByType));
 
     return new UrlBuilder(url.toString());
   }
@@ -43,7 +55,7 @@ export class UrlBuilder {
 
     const url = new URL(this._url);
 
-    url.searchParams.set("q", search);
+    url.searchParams.set(QUERY_PARAMS_KEYS.QUERY, search);
 
     return new UrlBuilder(url.toString());
   }

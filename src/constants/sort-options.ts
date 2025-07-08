@@ -8,3 +8,8 @@ export const sortOptions: Array<{ label: string; value: string }> = [
     value: "stars",
   },
 ] as const;
+
+export enum ORDER_TYPES {
+  ASCENDING = "asc",
+  DESCENDING = "desc",
+}

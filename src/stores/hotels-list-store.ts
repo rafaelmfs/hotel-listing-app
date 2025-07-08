@@ -1,6 +1,10 @@
 import debounce from "lodash.debounce";
 import { defineStore } from "pinia";
-import { sortOptions } from "src/constants/sort-options";
+import {
+  DEFAULT_ITEMS_PER_PAGE,
+  DEFAULT_PAGE,
+} from "src/constants/pagination-constants";
+import { ORDER_TYPES, sortOptions } from "src/constants/sort-options";
 import type { HotelProtocol } from "src/protocols/hotels-protocol";
 import type { FindByCityParams } from "src/protocols/hotels-service-protocol";
 import type { PaginationProtocol } from "src/protocols/pagination-protocol";
@@ -20,8 +24,10 @@ export const useHotelListStore = defineStore("hotels", () => {
   const selectedHotel = ref<HotelProtocol | null>(null);
   const orderByProperty = ref<OrderByOptions>(sortOptions[0] as OrderByOptions);
   const selectedCity = ref<OptionProtocol>();
-  const orderByType = computed<"desc" | "asc">(() =>
-    orderByProperty.value.value === "stars" ? "desc" : "asc"
+  const orderByType = computed<ORDER_TYPES>(() =>
+    orderByProperty.value.value === "stars"
+      ? ORDER_TYPES.DESCENDING
+      : ORDER_TYPES.ASCENDING
   );
   const searchTerm = ref<string>();
 
@@ -58,7 +64,7 @@ export const useHotelListStore = defineStore("hotels", () => {
 
     const hotels = await source();
 
-    if (params.page === 1) {
+    if (params.page === DEFAULT_PAGE) {
       setHotels(hotels);
       return hotels;
     }
@@ -70,8 +76,8 @@ export const useHotelListStore = defineStore("hotels", () => {
   const fetchDebounce = debounce(
     () =>
       fetchHotels({
-        page: 1,
-        itemsPerPage: 20,
+        page: DEFAULT_PAGE,
+        itemsPerPage: DEFAULT_ITEMS_PER_PAGE,
         orderByName: orderByProperty.value.value,
         orderByType: orderByType.value,
       }),
@@ -80,8 +86,8 @@ export const useHotelListStore = defineStore("hotels", () => {
 
   watch(orderByProperty, async (newOrder) => {
     await fetchHotels({
-      page: 1,
-      itemsPerPage: 20,
+      page: DEFAULT_PAGE,
+      itemsPerPage: DEFAULT_ITEMS_PER_PAGE,
       orderByName: String(newOrder?.value),
       orderByType: orderByType.value,
     });

@@ -43,11 +43,12 @@ import { useFetchHotelDetails } from 'src/composables/use-fetch-hotel-details';
         </button>
       </div>
       <div class="details-dialog__thumbs">
-        <q-skeleton v-if="isLoading" />
+        <q-skeleton height="inherit" v-if="isLoading" />
         <app-carousel v-else :images="hotelDetails?.images ?? []"></app-carousel>
 
       <div class="details-dialog__thumbs__ratings">
         <q-rating
+          v-if="!isLoading"
           :model-value="selectedHotel?.stars ?? 0"
           size="1.2em"
           color="info-500"
@@ -63,19 +64,24 @@ import { useFetchHotelDetails } from 'src/composables/use-fetch-hotel-details';
         <div class="details-dialog__content__data gap-2 column">
           <span class="text-h5 text-primary-100">Comodidades</span>
           <div class="row gap-2">
-            <div class="row items-center no-wrap gap-2 text-info-400 col-sm-6 col-md-4" v-for="amenities in hotelAmenities" :key="amenities.title" >
-              <q-icon size="1rem" :name="amenities.iconName" />
-              <span>{{ amenities.title }}</span>
-            </div>
+            <q-skeleton type="rect" v-if="isLoading" />
+            <template v-else>
+              <div class="row items-center no-wrap gap-2 text-info-400 col-sm-6 col-md-4" v-for="amenities in hotelAmenities" :key="amenities.title" >
+                <q-icon size="1rem" :name="amenities.iconName" />
+                <span>{{ amenities.title }}</span>
+              </div>
+            </template>
           </div>
         </div>
         <div class="details-dialog__content__data gap-2 column">
           <span class="text-h5 text-primary-100">Localização</span>
-          <p class="text-body1 text-info-400">{{ hotelDetails?.fullAddress}}</p>
+          <q-skeleton type="text" v-if="isLoading" />
+          <p v-else class="text-body1 text-info-400">{{ hotelDetails?.fullAddress}}</p>
         </div>
         <div class="details-dialog__content__data gap-2 column">
           <span class="text-h5 text-primary-100">Sobre o hotel {{ selectedHotel?.name}}</span>
-          <p class="text-body1 text-info-400">
+          <q-skeleton type="text" v-if="isLoading" />
+          <p v-else class="text-body1 text-info-400">
             {{  hotelDetails?.description }}
           </p>
         </div>
@@ -86,6 +92,7 @@ import { useFetchHotelDetails } from 'src/composables/use-fetch-hotel-details';
 
 <style lang="scss">
   .q-dialog__inner--maximized {
+    min-width: 40%;
     max-width: 40%;
 
     @media(max-width: 991px) {
