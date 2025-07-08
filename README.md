@@ -21,6 +21,10 @@ Aplicação front-end desenvolvida com [Vue 3](https://vuejs.org/) e [Quasar Fra
 - Paginação com scroll infinito
 - API simulada com JSON Server
 
+![image](https://github.com/user-attachments/assets/c18d04a6-333e-4092-bd9c-16b0c40827a5)
+![image](https://github.com/user-attachments/assets/43c171e5-123c-4811-a6e2-d09b9e168a9a)
+
+
 Foi feito o formulário para filtrar os hotéis, onde o usuário pode escolher um destino e também se quiser, utilizar o nome do hotel.
 Esse formulário pode ser enviado ao pressionar a tecla enter ou ao clicar no botão de busca.
 
