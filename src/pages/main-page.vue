@@ -30,6 +30,7 @@ async function onLoad(_: number, done: (stop:boolean) => void){
 
 
 watch(selectedCity, () => {
+  console.log({ hotels })
   currentPage.value = DEFAULT_PAGE
 })
 

@@ -8,7 +8,7 @@ declare module "vue" {
   }
 }
 
-const api = axios.create({ baseURL: "" });
+const api = axios.create();
 
 export default defineBoot(({ app }) => {
   app.config.globalProperties.$axios = axios;

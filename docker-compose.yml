@@ -1,0 +1,26 @@
+services:
+  api:
+    build:
+      context: ./
+      dockerfile:  dockerfile.api
+    ports:
+      - "3000:3000"
+    networks:
+      - appnet
+
+  frontend:
+    build: 
+      context: ./
+      dockerfile: dockerfile.vue
+    ports:
+      - "8080:80"
+    networks:
+      - appnet
+    depends_on:
+      - api
+    environment:
+      VITE_BASE_URL: "localhost:3000"
+
+networks:
+  appnet:
+    driver: bridge
